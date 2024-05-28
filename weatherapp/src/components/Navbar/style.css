@@ -1,0 +1,8 @@
+.navbar {
+  background-color: var(--primary-color-azul-medio);
+}
+
+.logo {
+  width: 60px;
+  margin: auto auto auto 100px;
+}

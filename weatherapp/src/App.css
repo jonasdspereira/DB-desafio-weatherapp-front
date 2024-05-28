@@ -1,0 +1,60 @@
+:root {
+  --primary-color-azul-escuro: #201f53;
+  --primary-color-rosa: #ed177d;
+  --primary-color-vermelho: #ef4c56;
+  --primary-color-amarelo: #eab53d;
+  --primary-color-verde: #4cbf98;
+  --primary-color-azul: #14b6ef;
+  --primary-color-azul-medio: #414aba;
+  --primary-color-branco: #ffffff;
+  --primary-color-preto: #292929;
+
+  --secondary-color-rosa-pastel: #ff65bc;
+  --secondary-color-vermelho-pastel: #f7757a;
+  --secondary-color-amarelo-pastel: #f5df93;
+  --secondary-color-verde-pastel: #7ed7b6;
+  --secondary-color-azul-pastel: #85d4f4;
+
+  --support-color-azul-lavanda: #c8d5fd;
+  --support-color-rosa-claro: #ffcbeb;
+  --support-color-vermelho-claro: #fccfcf;
+  --support-color-amarelo-claro: #f9f0c8;
+  --support-color-verde-claro: #d6f5e6;
+  --support-color-azul-claro: #bee7f9;
+
+  --support-color-cinza-escuro: #5d5a5b;
+  --support-color-cinza-medio: #d8d9d7;
+  --support-color-cinza-claro: #f6f7f5;
+  --support-color-cinza-muito-claro: #f9b700;
+
+  --status-color-sucess: #07a24c;
+  --status-color-error: #d70c2f;
+  --status-color-attention: #f9b700;
+
+  --gradient-color-azul-escuro: ;
+  --gradient-color-rosa: ;
+  --gradient-color-vermelho: ;
+  --gradient-color-amarelo: ;
+  --gradient-color-verde: ;
+  --gradient-color-azul-medio: ;
+}
+
+@font-face {
+  font-family: "TT Supermolot";
+  src: url("./assets/fonts/TTSupermolotBold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TT Supermolot";
+  src: url("./assets/fonts/TTSupermolotRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  background-color: var(--primary-color-branco);
+  font-family: "TT Supermolot", Arial, sans-serif;
+}

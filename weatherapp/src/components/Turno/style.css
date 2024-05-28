@@ -1,0 +1,25 @@
+.turnobutton {
+  background-color: #b3e5fc;
+  color: blue;
+  border: 2px solid #b3e5fc;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100px;
+  height: 40px;
+  font-family: "TT Supermolot", Arial, sans-serif;
+}
+
+.turnobutton.selected {
+  background-color: #90caf9;
+}
+.turnobutton.selected {
+  background-color: #90caf9;
+  font-weight: bold; /* Deixa o texto em negrito */
+  border: 2px solid blue; /* Adiciona uma borda */
+}
+
+.invalid {
+  border-color: red;
+}
