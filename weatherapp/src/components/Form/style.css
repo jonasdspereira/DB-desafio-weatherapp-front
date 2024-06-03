@@ -1,23 +1,16 @@
 .container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   max-width: 1500px;
 }
-.col-1,
-.col-2 {
-  flex-basis: calc(50% - 20px);
-}
+
 .col-3 {
-  display: flex;
-  flex-basis: 100%;
-  flex-direction: column;
-}
-.col-1 {
-  margin-right: 20px;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .col-2 {
-  margin-left: 20px;
+  margin-left: 122px;
 }
 
 form {
@@ -36,22 +29,18 @@ h1 {
 
 label,
 p,
-input,
-select {
+input {
   display: block;
   font-family: "TT Supermolot", Arial, sans-serif;
 }
 
 label {
   font-size: 22pt;
-  margin: 40px 0 16px 0;
+  margin: 22px 0 16px 0;
 }
 
 .cidadeinput {
   border: 2px solid var(--primary-color-azul-medio);
-  padding: 10px;
-  width: 370px;
-  border-radius: 5px;
 }
 
 .cidadeinput:focus {
@@ -63,48 +52,14 @@ label {
   border: 2px solid var(--primary-color-azul-medio);
   padding: 10px;
   width: 370px;
-  border-radius: 5px;
 }
 
 button {
   margin-right: 5px;
 }
 
-.updown-container {
-  display: flex;
-}
-
-.updown-div {
-  margin-right: 20px;
-  box-shadow: 0 4px 4px 0 #00000025;
-  border-radius: 5px;
-  border: 2px solid #fff;
-}
-
-.updown-div p {
-  margin-left: 10px;
-}
-
-.turnobutton {
-  background-color: #b3e5fc;
-  color: blue;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 1rem;
-  width: 100px;
-  height: 40px;
-}
-
-.turnobutton.selected {
-  background-color: #90caf9;
-}
-
 .climaselect {
   border: 2px solid var(--primary-color-azul-medio);
-  padding: 10px;
-  width: 200px;
   border-radius: 5px;
 }
 
@@ -145,18 +100,16 @@ button {
 }
 
 .invalid {
-  border-color: red;
+  border-color: var(--primary-color-vermelho);
 }
 
 .error-message {
-  color: red;
+  color: var(--primary-color-vermelho);
   font-size: 10pt;
   margin-top: 0.25rem;
 }
 
 .climacontainer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 65%;
+  align-items: flex-end;
 }

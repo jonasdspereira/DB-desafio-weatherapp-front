@@ -1,10 +1,27 @@
 .updown-container {
   display: flex;
   align-items: center;
+  border: 2px solid var(--primary-color-branco);
+  border-radius: 5px;
+}
+
+.updown-main {
+  display: flex;
+  align-items: center;
+}
+
+.updown-div {
+  margin-right: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--primary-color-branco);
+}
+
+.updown-div p {
+  margin-left: 10px;
 }
 
 img {
-  color: white;
+  color: var(--primary-color-branco);
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -28,10 +45,10 @@ img {
 }
 
 .invalid-border {
-  border-color: red;
+  border-color: var(--primary-color-vermelho);
 }
 
 .error-message {
-  color: red;
+  color: var(--primary-color-vermelho);
   margin-top: 5px;
 }

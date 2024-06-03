@@ -1,0 +1,43 @@
+.invalid .ant-select-selector,
+.invalid .ant-picker,
+.invalid .ant-input {
+  border: 2px solid var(--primary-color-vermelho) !important;
+}
+
+.selected .ant-select-selector {
+  border-color: var(--primary-color-verde) !important;
+}
+
+.custom-select .ant-select-selector:focus,
+.custom-select .ant-select-selector:active {
+  border-color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-item-option:hover {
+  background-color: var(--primary-color-azul) !important;
+  color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-selector {
+  border: 2px solid var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--primary-color-branco) !important;
+  color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-dropdown {
+  border: 2px solid var(--primary-color-azul-medio);
+  border-radius: 4px;
+}
+
+.ant-select-item-option {
+  font-family: "TT Supermolot", Arial, sans-serif;
+  font-size: 14px;
+}
+
+.ant-select-selector {
+  font-family: "TT Supermolot", Arial, sans-serif;
+  font-size: 14px;
+}

@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "./Toast";
 import axios from "axios";
-import "./style.css";
+import "./style.css"; 
+import "./customStyles.css";
 import UpDownButton from "../UpDownButton";
-import { DatePicker } from "antd";
+import { DatePicker, Input, Select, ConfigProvider } from "antd";
 import Turno from "../Turno";
 
 const Form = () => {
   const API_URL = process.env.REACT_APP_API_URL;
-
   const dateFormatList = "DD-MM-YYYY";
 
   const [cidadeInput, setCidadeInput] = useState("");
@@ -22,83 +22,40 @@ const Form = () => {
   const [clima, setClima] = useState("Selecione a opção");
   const [turno, setTurno] = useState(null);
 
-  const [cidadeInputValid, setCidadeInputValid] = useState(true);
-  const [dataValid, setDataValid] = useState(true);
-  const [turnoValid, setTurnoValid] = useState(true);
-  const [temperaturaMaxValid, setTemperaturaMaxValid] = useState(true);
-  const [temperaturaMinValid, setTemperaturaMinValid] = useState(true);
-  const [precipitacaoValid, setPrecipitacaoValid] = useState(true);
-  const [umidadeValid, setUmidadeValid] = useState(true);
-  const [ventoValid, setVentoValid] = useState(true);
-  const [climaValid, setClimaValid] = useState(true);
+  const initialValidState = {
+    cidade: true,
+    data: true,
+    turno: true,
+    temperaturaMax: true,
+    temperaturaMin: true,
+    precipitacao: true,
+    umidade: true,
+    vento: true,
+    clima: true,
+  };
+
+  const [inputValid, setInputValid] = useState(initialValidState);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let valid = true;
-
     const cidadeRegex = /^[^\s].*[^\s]$/;
-    if (!cidadeRegex.test(cidadeInput.trim())) {
-      setCidadeInputValid(false);
-    } else {
-      setCidadeInputValid(true);
-    }
 
-    if (!data) {
-      setDataValid(false);
-      valid = false;
-    } else {
-      setDataValid(true);
-    }
+    const newValidState = {
+      cidade: cidadeRegex.test(cidadeInput.trim()),
+      data: !!data,
+      turno: !!turno,
+      temperaturaMax: !!temperaturaMax,
+      temperaturaMin: !!temperaturaMin,
+      precipitacao: !!precipitacao,
+      umidade: !!umidade,
+      vento: !!vento,
+      clima: clima && clima !== "Selecione a opção",
+    };
 
-    if (!turno) {
-      setTurnoValid(false);
-      valid = false;
-    } else {
-      setTurnoValid(true);
-    }
+    setInputValid(newValidState);
 
-    if (!temperaturaMax) {
-      setTemperaturaMaxValid(false);
-      valid = false;
-    } else {
-      setTemperaturaMaxValid(true);
-    }
-
-    if (!temperaturaMin) {
-      setTemperaturaMinValid(false);
-      valid = false;
-    } else {
-      setTemperaturaMinValid(true);
-    }
-
-    if (!precipitacao) {
-      setPrecipitacaoValid(false);
-      valid = false;
-    } else {
-      setPrecipitacaoValid(true);
-    }
-
-    if (!umidade) {
-      setUmidadeValid(false);
-      valid = false;
-    } else {
-      setUmidadeValid(true);
-    }
-
-    if (!vento) {
-      setVentoValid(false);
-      valid = false;
-    } else {
-      setVentoValid(true);
-    }
-
-    if (!clima || clima === "Selecione a opção") {
-      setClimaValid(false);
-      valid = false;
-    } else {
-      setClimaValid(true);
-    }
+    const valid = Object.values(newValidState).every(Boolean);
 
     if (!valid) {
       showToast({
@@ -147,43 +104,61 @@ const Form = () => {
         <div className="col-1">
           <label>Buscar a cidade</label>
           <p>Cidade*</p>
-          <input
-            type="text"
-            className={`cidadeinput ${!cidadeInputValid ? "invalid" : ""}`}
-            placeholder="Busque por uma cidade"
-            value={cidadeInput}
-            onChange={(e) => setCidadeInput(e.target.value)}
-          />
-          {!cidadeInputValid && (
+          <ConfigProvider
+            theme={{
+              components: {
+                Input: {
+                  algorithm: true,
+                  hoverBorderColor: "var(--primary-color-azul-medio)",
+                  activeBorderColor: "#fff", 
+                },
+              },
+            }}
+          >
+            <Input
+              className={`cidadeinput ${!inputValid.cidade ? "invalid" : ""}`}
+              placeholder="Busque por uma cidade"
+              value={cidadeInput}
+              onChange={(e) => setCidadeInput(e.target.value)}
+              style={{ width: 465, height: 55 }}
+            ></Input>
+          </ConfigProvider>
+
+          {!inputValid.cidade && (
             <p className="error-message">Informe a cidade.</p>
           )}
-          <label className="temperaturalabel">Informe a Temperatura</label>
-          <div className="updown-container">
+          <label className="temperaturalabel" style={{ marginTop: 64 }}>
+            Informe a Temperatura
+          </label>
+          <div className="updown-main">
             <div
-              className={`updown-div ${!temperaturaMaxValid ? "invalid" : ""}`}
+              className="updown-div"
+              style={{ marginRight: 40 }}
             >
               <p>Máxima*</p>
               <UpDownButton
                 unit="°C"
                 value={temperaturaMax}
                 setValue={setTemperaturaMax}
+                isValid={inputValid.temperaturaMax}
               />
             </div>
             <div
-              className={`updown-div ${!temperaturaMinValid ? "invalid" : ""}`}
+              className="updown-div"
             >
               <p>Mínima*</p>
               <UpDownButton
                 unit="°C"
                 value={temperaturaMin}
                 setValue={setTemperaturaMin}
+                isValid={inputValid.temperaturaMin}
               />
             </div>
           </div>
-          {!temperaturaMaxValid && (
+          {!inputValid.temperaturaMax && (
             <p className="error-message">Informe a temperatura máxima.</p>
           )}
-          {!temperaturaMinValid && (
+          {!inputValid.temperaturaMin && (
             <p className="error-message">Informe a temperatura mínima.</p>
           )}
         </div>
@@ -191,67 +166,99 @@ const Form = () => {
           <label>Selecione a data</label>
           <p>Data*</p>
           <DatePicker
-            className={`datainput ${!dataValid ? "invalid" : ""}`}
+            className={`datainput ${!inputValid.data ? "invalid" : ""}`}
             value={data}
             defaultValue={null}
+            style={{ width: 225, height: 55 }}
             format={dateFormatList}
             onChange={(date) => setData(date)}
             placeholder="Selecione a data"
           />
-          {!dataValid && <p className="error-message">Informe a data.</p>}
-          <label>Selecione o Turno</label>
+          {!inputValid.data && <p className="error-message">Informe a data.</p>}
+          <label style={{ marginTop: 64 }}>Selecione o Turno</label>
           <p>Turno*</p>
           <Turno setTurno={setTurno} />
-          {!turnoValid && <p className="error-message">Selecione um turno.</p>}
+          {!inputValid.turno && (
+            <p className="error-message">Selecione um turno.</p>
+          )}
         </div>
         <div className="col-3">
           <div className="climacontainer">
             <div>
-              <label>Informe o Clima</label>
+              <label style={{ marginTop: 64 }}>Informe o Clima</label>
               <p>Clima*</p>
-              <select
-                className={`climaselect ${!climaValid ? "invalid" : ""}`}
-                value={clima}
-                onChange={(e) => setClima(e.target.value)}
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Select: {
+                      algorithm: true,
+                      hoverBorderColor: "var(--primary-color-azul-medio)",
+                      activeBorderColor: "#fff",
+                    },
+                  },
+                }}
               >
-                <option>Selecione a opção</option>
-                <option>LIMPO</option>
-                <option>PARCIALMENTE NUBLADO</option>
-                <option>NUBLADO</option>
-                <option>ENSOLARADO</option>
-                <option>CHUVOSO</option>
-                <option>TEMPESTUOSO</option>
-                <option>NEVADO</option>
-                <option>VENTOSO</option>
-              </select>
-              {!climaValid && <p className="error-message">Informe o clima.</p>}
+                <Select
+                  defaultValue="Selecione a opção"
+                  style={{ width: 205, height: 56 }}
+                  className={`custom-select ${
+                    !inputValid.clima ? "invalid" : ""
+                  } ${clima !== "Selecione a opção" ? "selected" : ""}`}
+                  value={clima}
+                  onChange={(value) => setClima(value)}
+                  options={[
+                    { value: "LIMPO", label: "LIMPO" },
+                    {
+                      value: "PARCIALMENTE NUBLADO",
+                      label: "PARCIALMENTE NUBLADO",
+                    },
+                    { value: "NUBLADO", label: "NUBLADO" },
+                    { value: "ENSOLARADO", label: "ENSOLARADO" },
+                    { value: "CHUVOSO", label: "CHUVOSO" },
+                    { value: "TEMPESTUOSO", label: "TEMPESTUOSO" },
+                    { value: "NEVADO", label: "NEVADO" },
+                    { value: "VENTOSO", label: "VENTOSO" },
+                  ]}
+                />
+              </ConfigProvider>
+
+              {!inputValid.clima && (
+                <p className="error-message">Informe o clima.</p>
+              )}
             </div>
 
-            <div className="updown-container">
+            <div className="updown-main" style={{ marginLeft: 60 }}>
               <div
-                className={`updown-div ${!precipitacaoValid ? "invalid" : ""}`}
+                className="updown-div"
+                style={{ marginRight: 60 }}
               >
                 <p>Precipitação*</p>
                 <UpDownButton
                   unit="mm"
                   value={precipitacao}
                   setValue={setPrecipitacao}
+                  isValid={inputValid.precipitacao}
                 />
-                {!precipitacaoValid && (
+                {!inputValid.precipitacao && (
                   <p className="error-message">Informe a precipitação.</p>
                 )}
               </div>
-              <div className={`updown-div ${!umidadeValid ? "invalid" : ""}`}>
+              <div
+                className="updown-div"
+                style={{ marginRight: 60 }}
+              >
                 <p>Umidade*</p>
-                <UpDownButton unit="%" value={umidade} setValue={setUmidade} />
-                {!umidadeValid && (
+                <UpDownButton unit="%" value={umidade} setValue={setUmidade} isValid={inputValid.umidade} />
+                {!inputValid.umidade && (
                   <p className="error-message">Informe a umidade.</p>
                 )}
               </div>
-              <div className={`updown-div ${!ventoValid ? "invalid" : ""}`}>
+              <div
+                className="updown-div"
+              >
                 <p>Velocidade do vento*</p>
-                <UpDownButton unit="Km/h" value={vento} setValue={setVento} />
-                {!ventoValid && (
+                <UpDownButton unit="Km/h" value={vento} setValue={setVento} isValid={inputValid.vento} />
+                {!inputValid.vento && (
                   <p className="error-message">
                     Informe a velocidade do vento.
                   </p>

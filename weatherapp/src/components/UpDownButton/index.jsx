@@ -3,7 +3,7 @@ import "./style.css";
 import up from "./img/up.png";
 import down from "./img/down.png";
 
-const UpDownButton = ({ unit, value, setValue }) => {
+const UpDownButton = ({ unit, value, setValue, isValid }) => {
   const handleIncrement = () => {
     const newValue = value + 1;
     setValue(newValue);
@@ -20,7 +20,7 @@ const UpDownButton = ({ unit, value, setValue }) => {
   };
 
   return (
-    <div className="updown-container">
+    <div className={`updown-container ${isValid ? "" : "invalid"}`}>
       <img src={down} alt="" onClick={handleDecrement} />
       <input
         className="updown-input"

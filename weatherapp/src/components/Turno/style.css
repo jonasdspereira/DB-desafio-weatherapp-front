@@ -1,7 +1,7 @@
 .turnobutton {
-  background-color: #b3e5fc;
-  color: blue;
-  border: 2px solid #b3e5fc;
+  background-color: var(--primary-color-azul);
+  color: var(--primary-color-azul-escuro);
+  border: 2px solid var(--primary-color-azul);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -12,14 +12,14 @@
 }
 
 .turnobutton.selected {
-  background-color: #90caf9;
+  background-color: var(--primary-color-azul);
 }
 .turnobutton.selected {
-  background-color: #90caf9;
-  font-weight: bold; /* Deixa o texto em negrito */
-  border: 2px solid blue; /* Adiciona uma borda */
+  background-color: var(--primary-color-azul);
+  font-weight: bold; 
+  border: 2px solid var(--primary-color-azul-escuro); 
 }
 
 .invalid {
-  border-color: red;
+  border-color: var(--primary-color-vermelho);
 }
