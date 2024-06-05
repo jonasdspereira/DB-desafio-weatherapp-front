@@ -20,3 +20,34 @@
 .current {
   font-weight: bold;
 }
+
+/* Media Queries para Responsividade */
+
+/* Tablets (largura máxima de 768px) */
+@media (max-width: 768px) {
+  .breadcrumb {
+    margin: 20px 0 0 20px;
+  }
+
+  .breadcrumb ul {
+    justify-content: start;
+  }
+}
+
+/* Smartphones (largura máxima de 480px) */
+@media (max-width: 480px) {
+  .breadcrumb {
+    margin: 20px 0 0 20px;
+  }
+
+  .breadcrumb ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .breadcrumb li:not(:last-child)::after {
+    display: inline-block;
+    margin: 0 0.25rem;
+    content: "/";
+  }
+}

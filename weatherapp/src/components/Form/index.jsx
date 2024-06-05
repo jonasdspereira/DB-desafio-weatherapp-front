@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "./Toast";
 import axios from "axios";
-import "./style.css"; 
+import "./style.css";
 import "./customStyles.css";
 import UpDownButton from "../UpDownButton";
 import { DatePicker, Input, Select, ConfigProvider } from "antd";
@@ -102,65 +102,60 @@ const Form = () => {
       <form onSubmit={handleSubmit}>
         <h1>Cadastro de dados Meteorológicos</h1>
         <div className="col-1">
-          <label>Buscar a cidade</label>
-          <p>Cidade*</p>
-          <ConfigProvider
-            theme={{
-              components: {
-                Input: {
-                  algorithm: true,
-                  hoverBorderColor: "var(--primary-color-azul-medio)",
-                  activeBorderColor: "#fff", 
+          <div className="cidadecontainer">
+            <label>Buscar a cidade</label>
+            <p>Cidade*</p>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Input: {
+                    algorithm: true,
+                    hoverBorderColor: "var(--primary-color-azul-medio)",
+                    activeBorderColor: "#fff",
+                  },
                 },
-              },
-            }}
-          >
-            <Input
-              className={`cidadeinput ${!inputValid.cidade ? "invalid" : ""}`}
-              placeholder="Busque por uma cidade"
-              value={cidadeInput}
-              onChange={(e) => setCidadeInput(e.target.value)}
-              style={{ width: 465, height: 55 }}
-            ></Input>
-          </ConfigProvider>
+              }}
+            >
+              <Input
+                className={`cidadeinput ${!inputValid.cidade ? "invalid" : ""}`}
+                placeholder="Busque por uma cidade"
+                value={cidadeInput}
+                onChange={(e) => setCidadeInput(e.target.value)}
+                // style={{ width: 465, height: 55 }}
+              ></Input>
+            </ConfigProvider>
 
-          {!inputValid.cidade && (
-            <p className="error-message">Informe a cidade.</p>
-          )}
-          <label className="temperaturalabel" style={{ marginTop: 64 }}>
-            Informe a Temperatura
-          </label>
-          <div className="updown-main">
-            <div
-              className="updown-div"
-              style={{ marginRight: 40 }}
-            >
-              <p>Máxima*</p>
-              <UpDownButton
-                unit="°C"
-                value={temperaturaMax}
-                setValue={setTemperaturaMax}
-                isValid={inputValid.temperaturaMax}
-              />
+            {!inputValid.cidade && (
+              <p className="error-message">Informe a cidade.</p>
+            )}
+            <label className="temperaturalabel">Informe a Temperatura</label>
+            <div className="updown-main">
+              <div className="updown-div">
+                <p>Máxima*</p>
+                <UpDownButton
+                  unit="°C"
+                  value={temperaturaMax}
+                  setValue={setTemperaturaMax}
+                  isValid={inputValid.temperaturaMax}
+                />
+              </div>
+              <div className="updown-div">
+                <p>Mínima*</p>
+                <UpDownButton
+                  unit="°C"
+                  value={temperaturaMin}
+                  setValue={setTemperaturaMin}
+                  isValid={inputValid.temperaturaMin}
+                />
+              </div>
             </div>
-            <div
-              className="updown-div"
-            >
-              <p>Mínima*</p>
-              <UpDownButton
-                unit="°C"
-                value={temperaturaMin}
-                setValue={setTemperaturaMin}
-                isValid={inputValid.temperaturaMin}
-              />
-            </div>
+            {!inputValid.temperaturaMax && (
+              <p className="error-message">Informe a temperatura máxima.</p>
+            )}
+            {!inputValid.temperaturaMin && (
+              <p className="error-message">Informe a temperatura mínima.</p>
+            )}
           </div>
-          {!inputValid.temperaturaMax && (
-            <p className="error-message">Informe a temperatura máxima.</p>
-          )}
-          {!inputValid.temperaturaMin && (
-            <p className="error-message">Informe a temperatura mínima.</p>
-          )}
         </div>
         <div className="col-2">
           <label>Selecione a data</label>
@@ -169,7 +164,6 @@ const Form = () => {
             className={`datainput ${!inputValid.data ? "invalid" : ""}`}
             value={data}
             defaultValue={null}
-            style={{ width: 225, height: 55 }}
             format={dateFormatList}
             onChange={(date) => setData(date)}
             placeholder="Selecione a data"
@@ -177,7 +171,7 @@ const Form = () => {
           {!inputValid.data && <p className="error-message">Informe a data.</p>}
           <label style={{ marginTop: 64 }}>Selecione o Turno</label>
           <p>Turno*</p>
-          <Turno setTurno={setTurno} />
+          <Turno setTurno={setTurno} invalid={!inputValid.turno} />
           {!inputValid.turno && (
             <p className="error-message">Selecione um turno.</p>
           )}
@@ -227,11 +221,8 @@ const Form = () => {
               )}
             </div>
 
-            <div className="updown-main" style={{ marginLeft: 60 }}>
-              <div
-                className="updown-div"
-                style={{ marginRight: 60 }}
-              >
+            <div className="updown-main">
+              <div className="updown-div">
                 <p>Precipitação*</p>
                 <UpDownButton
                   unit="mm"
@@ -243,21 +234,26 @@ const Form = () => {
                   <p className="error-message">Informe a precipitação.</p>
                 )}
               </div>
-              <div
-                className="updown-div"
-                style={{ marginRight: 60 }}
-              >
+              <div className="updown-div">
                 <p>Umidade*</p>
-                <UpDownButton unit="%" value={umidade} setValue={setUmidade} isValid={inputValid.umidade} />
+                <UpDownButton
+                  unit="%"
+                  value={umidade}
+                  setValue={setUmidade}
+                  isValid={inputValid.umidade}
+                />
                 {!inputValid.umidade && (
                   <p className="error-message">Informe a umidade.</p>
                 )}
               </div>
-              <div
-                className="updown-div"
-              >
+              <div className="updown-div">
                 <p>Velocidade do vento*</p>
-                <UpDownButton unit="Km/h" value={vento} setValue={setVento} isValid={inputValid.vento} />
+                <UpDownButton
+                  unit="Km/h"
+                  value={vento}
+                  setValue={setVento}
+                  isValid={inputValid.vento}
+                />
                 {!inputValid.vento && (
                   <p className="error-message">
                     Informe a velocidade do vento.

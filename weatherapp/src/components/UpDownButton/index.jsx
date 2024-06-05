@@ -20,7 +20,7 @@ const UpDownButton = ({ unit, value, setValue, isValid }) => {
   };
 
   return (
-    <div className={`updown-container ${isValid ? "" : "invalid"}`}>
+    <div className={`updown ${isValid ? "" : "invalid-border"}`}>
       <img src={down} alt="" onClick={handleDecrement} />
       <input
         className="updown-input"

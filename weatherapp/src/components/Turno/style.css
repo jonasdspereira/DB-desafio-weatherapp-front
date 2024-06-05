@@ -9,17 +9,15 @@
   width: 100px;
   height: 40px;
   font-family: "TT Supermolot", Arial, sans-serif;
+  transition: border-color 0.3s;
 }
 
 .turnobutton.selected {
   background-color: var(--primary-color-azul);
-}
-.turnobutton.selected {
-  background-color: var(--primary-color-azul);
-  font-weight: bold; 
-  border: 2px solid var(--primary-color-azul-escuro); 
+  font-weight: bold;
+  border: 2px solid var(--primary-color-azul-escuro);
 }
 
-.invalid {
+.turnobutton.invalid {
   border-color: var(--primary-color-vermelho);
 }

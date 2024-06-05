@@ -1,7 +1,6 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  max-width: 1500px;
 }
 
 .col-3 {
@@ -17,13 +16,13 @@ form {
   margin: 0 0 0 120px;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: 100vw;
 }
 
 h1 {
   font-size: 23pt;
   font-weight: bold;
-  width: 100%;
+  width: 100vw;
   margin: 40px 0 16px 0;
 }
 
@@ -41,6 +40,8 @@ label {
 
 .cidadeinput {
   border: 2px solid var(--primary-color-azul-medio);
+  width: 465;
+  height: 55;
 }
 
 .cidadeinput:focus {
@@ -66,7 +67,7 @@ button {
 .buttonscontainer {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   margin: 80px 0;
 }
 
@@ -112,4 +113,179 @@ button {
 .climacontainer {
   display: flex;
   align-items: flex-end;
+}
+
+.climacontainer .updown-main {
+  margin-left: 60px;
+}
+.climacontainer .updown-main .updown-div {
+  margin-left: 60px;
+}
+
+.cidadecontainer .updown-main {
+  margin-right: 60px;
+}
+.cidadecontainer .updown-main .updown-div {
+  margin-right: 60px;
+}
+.cidadecontainer label {
+  margin-top: 22px;
+}
+
+/* Media Queries para Responsividade */
+
+/* Tablets (largura máxima de 768px a 1023px ) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .col-1,
+  .col-2,
+  .col-3 {
+    margin-left: 10px;
+  }
+
+  h1 {
+    font-size: 20pt;
+    margin: 30px 0 12px 0;
+  }
+
+  label {
+    font-size: 18pt;
+    margin: 20px 0 14px 0;
+  }
+  form {
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .datainput,
+  .cidadeinput {
+    width: 100vw;
+    max-width: 300px;
+  }
+
+  .buttonscontainer {
+    margin: 40px 0;
+  }
+  .climacontainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .climacontainer .updown-main {
+    margin-left: 0;
+  }
+  .climacontainer .updown-main .updown-div {
+    margin-left: 0;
+  }
+  .cidadecontainer .updown-main {
+    margin-left: 0px;
+  }
+  .cidadecontainer .updown-main .updown-div {
+    margin-left: 0px;
+  }
+  .cidadecontainer label {
+    margin-top: 10px;
+  }
+}
+
+/* Smartphones (largura máxima de 480px) */
+@media screen and (max-width: 767px) {
+  .container {
+    grid-template-columns: 1fr;
+    width: 100vw;
+  }
+
+  .col-1,
+  .col-2,
+  .col-3 {
+    margin-left: 10px;
+  }
+
+  form {
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 15pt;
+    margin: 2rem 0 1rem 0.2rem;
+  }
+
+  label {
+    font-size: 16pt;
+    margin: 18px 0 12px 0;
+  }
+
+  .datainput,
+  .cidadeinput {
+    width: 100vw;
+    max-width: 250px;
+  }
+
+  .buttonscontainer {
+    flex-direction: row;
+    margin: 20px 0;
+  }
+
+  .cancelarbutton,
+  .salvarbutton {
+    width: 100vw;
+    height: 40px;
+    margin: 10px 0;
+  }
+  .climacontainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .climacontainer .updown-main {
+    margin-left: 0;
+  }
+  .climacontainer .updown-main .updown-div {
+    margin-left: 0;
+  }
+  .cidadecontainer .updown-main {
+    margin-left: 0px;
+  }
+  .cidadecontainer .updown-main .updown-div {
+    margin-left: 0px;
+  }
+  .cidadecontainer label {
+    margin-top: 10px;
+  }
+
+  .cancelarbutton {
+    width: 150px;
+    height: 30px;
+    background-color: var(--primary-color-branco);
+    border: 1px solid var(--primary-color-azul-medio);
+    color: var(--primary-color-azul-medio);
+    font-family: "TT Supermolot", Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .salvarbutton {
+    width: 150px;
+    height: 30px;
+    background-color: var(--primary-color-azul-medio);
+    border: 1px solid var(--primary-color-azul-medio);
+    color: var(--primary-color-branco);
+    font-family: "TT Supermolot", Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+  }
 }

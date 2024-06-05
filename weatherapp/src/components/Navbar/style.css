@@ -1,8 +1,39 @@
 .navbar {
   background-color: var(--primary-color-azul-medio);
+  display: flex;
+  align-items: start;
+  padding: 10px 20px;
 }
 
+/* Estilo padrão da logo */
 .logo {
   width: 60px;
   margin: auto auto auto 100px;
+}
+
+/* Media Queries para Responsividade */
+
+/* Tablets (largura máxima de 781px) */
+@media (max-width: 781px) {
+  .navbar {
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .logo {
+    margin: auto;
+  }
+}
+
+/* Smartphones (largura máxima de 780px) */
+@media (max-width: 780px) {
+  .navbar {
+    flex-direction: column;
+    align-items: start;
+    padding: 10px;
+  }
+
+  .logo {
+    margin: 10px 0;
+  }
 }
