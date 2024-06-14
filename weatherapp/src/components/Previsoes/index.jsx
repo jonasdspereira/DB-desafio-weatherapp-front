@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import "./style.css";
 import axios from "axios";
-import { DownOutlined } from "@ant-design/icons";
 import { Badge, Dropdown, Space, Table } from "antd";
 
 const items = [
@@ -30,10 +30,15 @@ const Previsoes = () => {
 
   const expandedRowRender = (record) => {
     const columns = [
-      { title: "Precipitação", dataIndex: "precipitacao", key: "precipitacao" },
-      { title: "Umidade", dataIndex: "umidade", key: "umidade" },
       {
-        title: "Velocidade do Vento",
+        title: "Precipitação",
+        dataIndex: "precipitacao",
+        key: "precipitacao",
+        width: 150,
+      },
+      { title: "Umidade", dataIndex: "umidade", key: "umidade", width: 50 },
+      {
+        title: "Vento",
         dataIndex: "velocidadeDoVento",
         key: "velocidadeDoVento",
       },
@@ -60,27 +65,34 @@ const Previsoes = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id", key: "id" },
-    { title: "Nome da Cidade", dataIndex: "nomeCidade", key: "nomeCidade" },
     {
-      title: "Data de Cadastro",
+      title: "Data",
       dataIndex: "dataCadastro",
       key: "dataCadastro",
+      width: 150,
     },
-    { title: "Turno da Cidade", dataIndex: "cidadeTurno", key: "cidadeTurno" },
-    { title: "Tempo na Cidade", dataIndex: "cidadeTempo", key: "cidadeTempo" },
+    { title: "Cidade", dataIndex: "nomeCidade", key: "nomeCidade", width: 150 },
     {
-      title: "Temperatura Máxima",
-      dataIndex: "temperaturaMaxima",
-      key: "temperaturaMaxima",
-    },
-    {
-      title: "Temperatura Mínima",
-      dataIndex: "temperaturaMinima",
-      key: "temperaturaMinima",
+      title: "Temperatura",
+      key: "temperatura",
+      render: (_, record) =>
+        `Máx ${record.temperaturaMaxima}°C / Mín ${record.temperaturaMinima}°C`,
+      width: 150,
     },
     {
-      title: "Ação",
+      title: "Clima",
+      dataIndex: "cidadeTempo",
+      key: "cidadeTempo",
+      width: 150,
+    },
+    {
+      title: "Turno",
+      dataIndex: "cidadeTurno",
+      key: "cidadeTurno",
+      width: 150,
+    },
+
+    {
       key: "acao",
       render: (_, record) => (
         <Space size="middle">
@@ -92,7 +104,7 @@ const Previsoes = () => {
   ];
 
   return (
-    <div>
+    <div className="previsoes-main">
       <h1>Previsões do Tempo para {cidade}</h1>
       <input
         type="text"

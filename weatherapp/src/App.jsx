@@ -14,7 +14,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/cadastro" element={<Form />} />
-        <Route path="/previsoes" element={<Previsoes />} />
+        <Route path="/" element={<Previsoes />} />
       </Routes>
     </>
   );

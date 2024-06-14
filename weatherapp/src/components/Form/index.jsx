@@ -3,7 +3,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "./Toast";
 import axios from "axios";
 import "./style.css";
-import "./customStyles.css";
 import UpDownButton from "../UpDownButton";
 import { DatePicker, Input, Select, ConfigProvider } from "antd";
 import Turno from "../Turno";
