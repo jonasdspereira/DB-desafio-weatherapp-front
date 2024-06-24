@@ -21,7 +21,7 @@ const Form = () => {
   const [precipitacao, setPrecipitacao] = useState(0);
   const [umidade, setUmidade] = useState(0);
   const [vento, setVento] = useState(0);
-  const [clima, setClima] = useState("Selecione a opção");
+  const [clima, setClima] = useState(null);
   const [turno, setTurno] = useState(null);
   const navigateTo = useNavigate();
 
@@ -53,7 +53,7 @@ const Form = () => {
       precipitacao: !!precipitacao,
       umidade: !!umidade,
       vento: !!vento,
-      clima: clima && clima !== "Selecione a opção",
+      clima: clima && clima !== null,
     };
 
     setInputValid(newValidState);
@@ -136,7 +136,7 @@ const Form = () => {
           setPrecipitacao(data.precipitacao || 0);
           setUmidade(data.umidade || 0);
           setVento(data.velocidadeDoVento || 0);
-          setClima(data.previsaoTempo || "Selecione a opção");
+          setClima(data.previsaoTempo || null);
         })
         .catch((error) => {
           console.error("Erro ao buscar dados:", error);
@@ -247,34 +247,34 @@ const Form = () => {
                     Select: {
                       algorithm: true,
                       hoverBorderColor: "var(--primary-color-azul-medio)",
-                      activeBorderColor: "#fff",
+                      activeBorderColor: "var(--primary-color-azul-medio)",
+                      colorBorder: "var(--primary-color-azul-medio)",
                     },
                   },
                 }}
               >
                 <Select
                   data-testid="custom-select"
-                  defaultValue="Selecione a opção"
+                  placeholder="Selecione a opção"
                   style={{ width: 205, height: 56 }}
                   className={`custom-select ${
                     !inputValid.clima ? "invalid" : ""
-                  } ${clima !== "Selecione a opção" ? "selected" : ""}`}
+                  }`}
                   value={clima}
                   onChange={(value) => setClima(value)}
-                  options={[
-                    { value: "LIMPO", label: "LIMPO" },
-                    {
-                      value: "PARCIALMENTE NUBLADO",
-                      label: "PARCIALMENTE NUBLADO",
-                    },
-                    { value: "NUBLADO", label: "NUBLADO" },
-                    { value: "ENSOLARADO", label: "ENSOLARADO" },
-                    { value: "CHUVOSO", label: "CHUVOSO" },
-                    { value: "TEMPESTUOSO", label: "TEMPESTUOSO" },
-                    { value: "NEVADO", label: "NEVADO" },
-                    { value: "VENTOSO", label: "VENTOSO" },
-                  ]}
-                />
+                  showSearch={false}
+                >
+                  <Option value="LIMPO">LIMPO</Option>
+                  <Option value="PARCIALMENTE NUBLADO">
+                    PARCIALMENTE NUBLADO
+                  </Option>
+                  <Option value="NUBLADO">NUBLADO</Option>
+                  <Option value="ENSOLARADO">ENSOLARADO</Option>
+                  <Option value="CHUVOSO">CHUVOSO</Option>
+                  <Option value="TEMPESTUOSO">TEMPESTUOSO</Option>
+                  <Option value="NEVADO">NEVADO</Option>
+                  <Option value="VENTOSO">VENTOSO</Option>
+                </Select>
               </ConfigProvider>
 
               {!inputValid.clima && (

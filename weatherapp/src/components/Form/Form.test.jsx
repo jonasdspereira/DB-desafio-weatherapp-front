@@ -1,41 +1,42 @@
-import { describe, test, expect, vi } from "vitest";
+import React from "react";
 import "@testing-library/jest-dom";
-import { render, fireEvent, waitFor, within } from "@testing-library/react";
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
+import { describe, test, expect, vi } from "vitest";
+import userEvent from "@testing-library/user-event";
 import Form from "./index.jsx";
 
 vi.mock("axios");
 
-const mockAPIUrl = "http://mockapi.com";
-const dateFormatList = "DD/MM/YYYY";
-
-const mockData = {
-  id: 1,
-  nomeCidade: "São Paulo",
-  dataCadastro: "01/06/2023",
-  previsaoTurno: "TARDE",
-  previsaoTempo: "ENSOLARADO",
-  temperaturaMaxima: 30,
-  temperaturaMinima: 20,
-  precipitacao: 0,
-  umidade: 60,
-  velocidadeDoVento: 10,
-};
-
-beforeEach(() => {
-  axios.get.mockResolvedValueOnce({ data: mockData });
-});
-
 describe("Testes do componente Form", () => {
+  const mockAPIUrl = "http://mockapi.com";
+  const dateFormatList = "DD/MM/YYYY";
+
+  const mockData = {
+    id: 1,
+    nomeCidade: "São Paulo",
+    dataCadastro: "01/06/2023",
+    previsaoTurno: "TARDE",
+    previsaoTempo: "ENSOLARADO",
+    temperaturaMaxima: 30,
+    temperaturaMinima: 20,
+    precipitacao: 0,
+    umidade: 60,
+    velocidadeDoVento: 10,
+  };
+
+  beforeEach(() => {
+    axios.get.mockResolvedValueOnce({ data: mockData });
+  });
+
   test("deve enviar a previsão com sucesso", async () => {
-    const { getByPlaceholderText, getByText, getByTestId, queryByText } =
-      render(
-        <Router>
-          <Form />
-        </Router>
-      );
+    const { getByPlaceholderText, getByText, getByTestId, getByRole } = render(
+      <Router>
+        <Form />
+      </Router>
+    );
 
     const cidadeInput = getByPlaceholderText("Busque por uma cidade");
     fireEvent.change(cidadeInput, { target: { value: "São Paulo" } });
@@ -50,29 +51,34 @@ describe("Testes do componente Form", () => {
     fireEvent.click(turnoButton);
 
     const temperaturaMaxInput = getByTestId("maxima-input");
-    fireEvent.change(temperaturaMaxInput, { target: { value: 30 } });
+    fireEvent.change(temperaturaMaxInput, { target: { value: "30" } });
 
     const temperaturaMinInput = getByTestId("minima-input");
-    fireEvent.change(temperaturaMinInput, { target: { value: 20 } });
+    fireEvent.change(temperaturaMinInput, { target: { value: "20" } });
 
-    const selectElement = getByTestId("custom-select");
-    const selectHtmlElement = within(selectElement).getByRole("combobox");
-    fireEvent.input(selectHtmlElement, { target: { value: "ENSOLARADO" } });
+    // Abre o dropdown do select
+    const selectElement = screen.getByTestId("custom-select");
+    fireEvent.click(selectElement);
 
+    // Aguarda e seleciona a opção "ENSOLARADO"
+    await waitFor(() => {
+      const optionEnsolarado = screen.getByText("ENSOLARADO");
+      fireEvent.click(optionEnsolarado);
+    });
     const precipitacaoInput = getByTestId("precipitacao-input");
-    fireEvent.change(precipitacaoInput, { target: { value: 0 } });
+    fireEvent.change(precipitacaoInput, { target: { value: "0" } });
 
     const umidadeInput = getByTestId("umidade-input");
-    fireEvent.change(umidadeInput, { target: { value: 60 } });
+    fireEvent.change(umidadeInput, { target: { value: "60" } });
 
     const ventoInput = getByTestId("vento-input");
-    fireEvent.change(ventoInput, { target: { value: 10 } });
+    fireEvent.change(ventoInput, { target: { value: "10" } });
 
     const submitButton = getByText("Salvar");
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      const successMessage = queryByText("Dados enviados com sucesso!");
+      const successMessage = getByText("Dados enviados com sucesso!");
       expect(successMessage).toBeInTheDocument();
     });
 
@@ -100,21 +106,41 @@ describe("Testes do componente Form", () => {
       </Router>
     );
 
+    // Submete o formulário sem preencher os campos obrigatórios
     const submitButton = getByText("Salvar");
     fireEvent.click(submitButton);
 
+    // Aguarda as mensagens de erro
     await waitFor(() => {
-      expect(getByText("Informe a cidade.")).toBeInTheDocument();
-      expect(getByText("Informe a data.")).toBeInTheDocument();
-      expect(getByText("Selecione um turno.")).toBeInTheDocument();
-      expect(getByText("Informe a temperatura máxima.")).toBeInTheDocument();
-      expect(getByText("Informe a temperatura mínima.")).toBeInTheDocument();
-      expect(getByText("Informe o clima.")).toBeInTheDocument();
-      expect(getByText("Informe a precipitação.")).toBeInTheDocument();
-      expect(getByText("Informe a umidade.")).toBeInTheDocument();
-      expect(getByText("Informe a velocidade do vento.")).toBeInTheDocument();
+      const cidadeError = getByText("Informe a cidade.");
+      expect(cidadeError).toBeInTheDocument();
+
+      const dataError = getByText("Informe a data.");
+      expect(dataError).toBeInTheDocument();
+
+      const turnoError = getByText("Selecione um turno.");
+      expect(turnoError).toBeInTheDocument();
+
+      const temperaturaMaxError = getByText("Informe a temperatura máxima.");
+      expect(temperaturaMaxError).toBeInTheDocument();
+
+      const temperaturaMinError = getByText("Informe a temperatura mínima.");
+      expect(temperaturaMinError).toBeInTheDocument();
+
+      const climaError = getByText("Informe o clima.");
+      expect(climaError).toBeInTheDocument();
+
+      const precipitacaoError = getByText("Informe a precipitação.");
+      expect(precipitacaoError).toBeInTheDocument();
+
+      const umidadeError = getByText("Informe a umidade.");
+      expect(umidadeError).toBeInTheDocument();
+
+      const ventoError = getByText("Informe a velocidade do vento.");
+      expect(ventoError).toBeInTheDocument();
     });
 
+    // Verifica que a requisição não foi feita
     expect(axios.post).not.toHaveBeenCalled();
   });
 });

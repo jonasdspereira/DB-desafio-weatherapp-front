@@ -12,7 +12,7 @@ const Breadcrumb = () => {
     switch (location.pathname) {
       case "/":
         return "Lista de dados meteorológicos ";
-      case "/cadastro":
+      case "/cadastrar":
         return "Cadastro de dados meteorológicos";
       default:
         return "Página Desconhecida";
