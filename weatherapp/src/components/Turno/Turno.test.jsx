@@ -8,7 +8,6 @@ describe("Turno Component", () => {
   test("deve renderizar os botões de turno", () => {
     render(<Turno setTurno={vi.fn()} invalid={false} />);
 
-    // Verifica se os botões estão presentes no documento
     const manhaButton = screen.getByText("MANHA");
     const tardeButton = screen.getByText("TARDE");
     const noiteButton = screen.getByText("NOITE");
@@ -26,18 +25,15 @@ describe("Turno Component", () => {
     const tardeButton = screen.getByText("TARDE");
     const noiteButton = screen.getByText("NOITE");
 
-    // Simula o clique no botão "MANHA"
     fireEvent.click(manhaButton);
     expect(manhaButton).toHaveClass("selected");
     expect(setTurnoMock).toHaveBeenCalledWith("MANHA");
 
-    // Simula o clique no botão "TARDE"
     fireEvent.click(tardeButton);
     expect(tardeButton).toHaveClass("selected");
     expect(manhaButton).not.toHaveClass("selected");
     expect(setTurnoMock).toHaveBeenCalledWith("TARDE");
 
-    // Simula o clique no botão "NOITE"
     fireEvent.click(noiteButton);
     expect(noiteButton).toHaveClass("selected");
     expect(tardeButton).not.toHaveClass("selected");

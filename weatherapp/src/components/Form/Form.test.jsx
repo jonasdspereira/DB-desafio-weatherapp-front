@@ -5,7 +5,6 @@ import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
 import { describe, test, expect, vi } from "vitest";
-import userEvent from "@testing-library/user-event";
 import Form from "./index.jsx";
 
 vi.mock("axios");
@@ -56,11 +55,9 @@ describe("Testes do componente Form", () => {
     const temperaturaMinInput = getByTestId("minima-input");
     fireEvent.change(temperaturaMinInput, { target: { value: "20" } });
 
-    // Abre o dropdown do select
     const selectElement = screen.getByTestId("custom-select");
     fireEvent.click(selectElement);
 
-    // Aguarda e seleciona a opção "ENSOLARADO"
     await waitFor(() => {
       const optionEnsolarado = screen.getByText("ENSOLARADO");
       fireEvent.click(optionEnsolarado);
@@ -106,11 +103,9 @@ describe("Testes do componente Form", () => {
       </Router>
     );
 
-    // Submete o formulário sem preencher os campos obrigatórios
     const submitButton = getByText("Salvar");
     fireEvent.click(submitButton);
 
-    // Aguarda as mensagens de erro
     await waitFor(() => {
       const cidadeError = getByText("Informe a cidade.");
       expect(cidadeError).toBeInTheDocument();
@@ -140,7 +135,6 @@ describe("Testes do componente Form", () => {
       expect(ventoError).toBeInTheDocument();
     });
 
-    // Verifica que a requisição não foi feita
     expect(axios.post).not.toHaveBeenCalled();
   });
 });
