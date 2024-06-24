@@ -9,20 +9,19 @@
 }
 
 .col-2 {
-  margin-left: 122px;
+  margin-left: 100px;
 }
 
 form {
   margin: 0 0 0 120px;
   display: flex;
   flex-wrap: wrap;
-  width: 100vw;
 }
 
 h1 {
   font-size: 23pt;
   font-weight: bold;
-  width: 100vw;
+  width: 90vw;
   margin: 40px 0 16px 0;
 }
 
@@ -67,7 +66,7 @@ button {
 .buttonscontainer {
   display: flex;
   justify-content: center;
-  width: 100vw;
+  width: 90vw;
   margin: 80px 0;
 }
 
@@ -103,7 +102,50 @@ button {
 .invalid {
   border-color: var(--primary-color-vermelho);
 }
+.invalid .ant-select-selector,
+.invalid .ant-picker,
+.invalid .ant-input {
+  border: 2px solid var(--primary-color-vermelho) !important;
+}
 
+.selected .ant-select-selector {
+  border-color: var(--primary-color-verde) !important;
+}
+
+.custom-select .ant-select-selector:focus,
+.custom-select .ant-select-selector:active {
+  border-color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-item-option:hover {
+  background-color: var(--primary-color-azul) !important;
+  color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-selector {
+  border: 2px solid var(--primary-color-azul-medio) !important;
+  color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--primary-color-branco) !important;
+  color: var(--primary-color-azul-medio) !important;
+}
+
+.ant-select-dropdown {
+  border: 2px solid var(--primary-color-azul-medio);
+  border-radius: 4px;
+}
+
+.ant-select-item-option {
+  font-family: "TT Supermolot", Arial, sans-serif;
+  font-size: 14px;
+}
+
+.ant-select-selector {
+  font-family: "TT Supermolot", Arial, sans-serif;
+  font-size: 14px;
+}
 .error-message {
   color: var(--primary-color-vermelho);
   font-size: 10pt;
@@ -159,7 +201,6 @@ button {
   form {
     margin: 0;
     display: flex;
-    width: 100vw;
     align-items: flex-start;
     flex-wrap: wrap;
     flex-direction: column;
@@ -194,6 +235,50 @@ button {
   .cidadecontainer label {
     margin-top: 10px;
   }
+
+  .invalid .ant-select-selector,
+  .invalid .ant-picker,
+  .invalid .ant-input {
+    border: 2px solid var(--primary-color-vermelho) !important;
+  }
+
+  .selected .ant-select-selector {
+    border-color: var(--primary-color-verde) !important;
+  }
+
+  .custom-select .ant-select-selector:focus,
+  .custom-select .ant-select-selector:active {
+    border-color: var(--primary-color-azul-medio) !important;
+  }
+
+  .ant-select-item-option:hover {
+    background-color: var(--primary-color-azul) !important;
+    color: var(--primary-color-azul-medio) !important;
+  }
+
+  .ant-select-selector {
+    border: 2px solid var(--primary-color-azul-medio) !important;
+  }
+
+  .ant-select-item-option-selected {
+    background-color: var(--primary-color-branco) !important;
+    color: var(--primary-color-azul-medio) !important;
+  }
+
+  .ant-select-dropdown {
+    border: 2px solid var(--primary-color-azul-medio);
+    border-radius: 4px;
+  }
+
+  .ant-select-item-option {
+    font-family: "TT Supermolot", Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  .ant-select-selector {
+    font-family: "TT Supermolot", Arial, sans-serif;
+    font-size: 14px;
+  }
 }
 
 /* Smartphones (largura máxima de 480px) */
@@ -212,7 +297,6 @@ button {
   form {
     margin: 0;
     display: flex;
-    width: 100vw;
     align-items: flex-start;
     flex-wrap: wrap;
     flex-direction: column;

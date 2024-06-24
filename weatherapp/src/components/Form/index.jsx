@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "./Toast";
 import axios from "axios";
 import "./style.css";
 import UpDownButton from "../UpDownButton";
 import { DatePicker, Input, Select, ConfigProvider } from "antd";
+import moment from "moment";
 import Turno from "../Turno";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Form = () => {
+  const { id } = useParams();
   const API_URL = process.env.REACT_APP_API_URL;
-  const dateFormatList = "DD-MM-YYYY";
+  const dateFormatList = "DD/MM/YYYY";
 
-  const [cidadeInput, setCidadeInput] = useState("");
+  const [cidade, setCidade] = useState("");
   const [data, setData] = useState(null);
   const [temperaturaMax, setTemperaturaMax] = useState(0);
   const [temperaturaMin, setTemperaturaMin] = useState(0);
@@ -20,6 +23,7 @@ const Form = () => {
   const [vento, setVento] = useState(0);
   const [clima, setClima] = useState("Selecione a opção");
   const [turno, setTurno] = useState(null);
+  const navigateTo = useNavigate();
 
   const initialValidState = {
     cidade: true,
@@ -38,10 +42,10 @@ const Form = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const cidadeRegex = /^[^\s].*[^\s]$/;
+    const previsaoRegex = /^[^\s].*[^\s]$/;
 
     const newValidState = {
-      cidade: cidadeRegex.test(cidadeInput.trim()),
+      cidade: cidade ? previsaoRegex.test(cidade.trim()) : false,
       data: !!data,
       turno: !!turno,
       temperaturaMax: !!temperaturaMax,
@@ -65,10 +69,10 @@ const Form = () => {
     }
 
     const formData = {
-      nomeCidade: cidadeInput,
+      nomeCidade: cidade,
       dataCadastro: data.format(dateFormatList),
-      cidadeTurno: turno,
-      cidadeTempo: clima,
+      previsaoTurno: turno,
+      previsaoTempo: clima,
       temperaturaMaxima: temperaturaMax,
       temperaturaMinima: temperaturaMin,
       precipitacao,
@@ -76,17 +80,37 @@ const Form = () => {
       velocidadeDoVento: vento,
     };
 
-    try {
-      await axios.post(`${API_URL}/previsao`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    console.log("Enviando dados:", formData);
 
-      showToast({
-        type: "success",
-        message: "Dados enviados com sucesso!",
-      });
+    try {
+      let response;
+      if (id) {
+        response = await axios.put(
+          `${API_URL}/previsoes/${cidade}/${id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        showToast({
+          type: "success",
+          message: "Dados atualizados com sucesso!",
+        });
+      } else {
+        response = await axios.post(`${API_URL}/previsoes`, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        showToast({
+          type: "success",
+          message: "Dados enviados com sucesso!",
+        });
+      }
+
+      console.log("Resposta do servidor:", response);
     } catch (error) {
       showToast({
         type: "error",
@@ -96,10 +120,46 @@ const Form = () => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`${API_URL}/previsoes/previsao/${id}`)
+        .then((response) => {
+          const data = response.data;
+          setCidade(data.nomeCidade || "");
+          setData(
+            data.dataCadastro ? moment(data.dataCadastro, dateFormatList) : null
+          );
+          setTurno(data.previsaoTurno || null);
+          setTemperaturaMax(data.temperaturaMaxima || 0);
+          setTemperaturaMin(data.temperaturaMinima || 0);
+          setPrecipitacao(data.precipitacao || 0);
+          setUmidade(data.umidade || 0);
+          setVento(data.velocidadeDoVento || 0);
+          setClima(data.previsaoTempo || "Selecione a opção");
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar dados:", error);
+          showToast({
+            type: "error",
+            message: "Erro ao carregar os dados para edição.",
+          });
+        });
+    }
+  }, [id, API_URL]);
+
+  const handleCancel = () => {
+    navigateTo("/");
+  };
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <h1>Cadastro de dados Meteorológicos</h1>
+        <h1>
+          {id
+            ? "Editar Dados Meteorológicos"
+            : "Cadastro de Dados Meteorológicos"}
+        </h1>
         <div className="col-1">
           <div className="cidadecontainer">
             <label>Buscar a cidade</label>
@@ -118,10 +178,9 @@ const Form = () => {
               <Input
                 className={`cidadeinput ${!inputValid.cidade ? "invalid" : ""}`}
                 placeholder="Busque por uma cidade"
-                value={cidadeInput}
-                onChange={(e) => setCidadeInput(e.target.value)}
-                // style={{ width: 465, height: 55 }}
-              ></Input>
+                value={cidade}
+                onChange={(e) => setCidade(e.target.value)}
+              />
             </ConfigProvider>
 
             {!inputValid.cidade && (
@@ -132,6 +191,7 @@ const Form = () => {
               <div className="updown-div">
                 <p>Máxima*</p>
                 <UpDownButton
+                  testId="maxima"
                   unit="°C"
                   value={temperaturaMax}
                   setValue={setTemperaturaMax}
@@ -141,6 +201,7 @@ const Form = () => {
               <div className="updown-div">
                 <p>Mínima*</p>
                 <UpDownButton
+                  testId="minima"
                   unit="°C"
                   value={temperaturaMin}
                   setValue={setTemperaturaMin}
@@ -192,6 +253,7 @@ const Form = () => {
                 }}
               >
                 <Select
+                  data-testid="custom-select"
                   defaultValue="Selecione a opção"
                   style={{ width: 205, height: 56 }}
                   className={`custom-select ${
@@ -224,6 +286,7 @@ const Form = () => {
               <div className="updown-div">
                 <p>Precipitação*</p>
                 <UpDownButton
+                  testId="precipitacao"
                   unit="mm"
                   value={precipitacao}
                   setValue={setPrecipitacao}
@@ -236,6 +299,7 @@ const Form = () => {
               <div className="updown-div">
                 <p>Umidade*</p>
                 <UpDownButton
+                  testId="umidade"
                   unit="%"
                   value={umidade}
                   setValue={setUmidade}
@@ -248,6 +312,7 @@ const Form = () => {
               <div className="updown-div">
                 <p>Velocidade do vento*</p>
                 <UpDownButton
+                  testId="vento"
                   unit="Km/h"
                   value={vento}
                   setValue={setVento}
@@ -263,11 +328,15 @@ const Form = () => {
           </div>
         </div>
         <div className="buttonscontainer">
-          <button type="button" className="cancelarbutton">
+          <button
+            type="button"
+            className="cancelarbutton"
+            onClick={handleCancel}
+          >
             Cancelar
           </button>
           <button type="submit" className="salvarbutton">
-            Salvar
+            {id ? "Atualizar" : "Salvar"}
           </button>
         </div>
       </form>

@@ -1,9 +1,9 @@
 import React from "react";
 import "./style.css";
-import up from "./img/up.png";
-import down from "./img/down.png";
+import up from "./up.png";
+import down from "./down.png";
 
-const UpDownButton = ({ unit, value, setValue, isValid }) => {
+const UpDownButton = ({ unit, value, setValue, isValid, testId }) => {
   const handleIncrement = () => {
     const newValue = value + 1;
     setValue(newValue);
@@ -15,21 +15,27 @@ const UpDownButton = ({ unit, value, setValue, isValid }) => {
   };
 
   const handleChange = (event) => {
-    const newValue = parseInt(event.target.value) || 0;
-    setValue(newValue);
+    const newValue = parseInt(event.target.value);
+    if (!isNaN(newValue)) {
+      setValue(newValue);
+    }
   };
 
   return (
-    <div className={`updown ${isValid ? "" : "invalid-border"}`}>
-      <img src={down} alt="" onClick={handleDecrement} />
+    <div
+      className={`updown ${isValid ? "" : "invalid-border"}`}
+      data-testid={testId}
+    >
+      <img src={down} alt="down" onClick={handleDecrement} />
       <input
         className="updown-input"
-        type="text"
+        type="number"
         value={value}
         onChange={handleChange}
+        data-testid={`${testId}-input`}
       />
       <span className="unit">{unit}</span>
-      <img src={up} alt="" onClick={handleIncrement} />
+      <img src={up} alt="up" onClick={handleIncrement} />
     </div>
   );
 };

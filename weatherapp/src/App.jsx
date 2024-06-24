@@ -5,17 +5,27 @@ import Previsoes from "./components/Previsoes";
 import Navbar from "./components/Navbar/";
 import Breadcrumb from "./components/Breadcrumb/";
 import { ToastContainer } from "react-toastify";
+import { ConfigProvider } from "antd";
 
 function App() {
   return (
     <>
-      <Navbar />
-      <Breadcrumb />
-      <ToastContainer />
-      <Routes>
-        <Route path="/cadastro" element={<Form />} />
-        <Route path="/" element={<Previsoes />} />
-      </Routes>
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: "TT Supermolot",
+          },
+        }}
+      >
+        <Navbar />
+        <Breadcrumb />
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Previsoes />} />
+          <Route path="/cadastrar" element={<Form />} />
+          <Route path="/editar/:id" element={<Form />} />
+        </Routes>
+      </ConfigProvider>
     </>
   );
 }

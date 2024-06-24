@@ -1,6 +1,6 @@
 describe("Renderização Inicial do Formulário", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:5173/"); 
+    cy.visit("http://localhost:5173/cadastrar");
   });
 
   it("Deve exibir todos os elementos do formulário", () => {
@@ -30,15 +30,16 @@ describe("Validação de Entrada do Formulário", () => {
   });
 
   it("Deve exibir mensagem de erro ao enviar formulário com campos obrigatórios vazios", () => {
-    
-    
     cy.get(".salvarbutton").click();
 
-    cy.contains(".Toastify__toast--warning", "Por favor, preencha todos os campos.", {
-      timeout: 4000,
-    }).should("exist");
+    cy.contains(
+      ".Toastify__toast--warning",
+      "Por favor, preencha todos os campos.",
+      {
+        timeout: 4000,
+      }
+    ).should("exist");
 
-    
     cy.contains(".error-message", "Informe a cidade.").should("exist");
     cy.contains(".error-message", "Informe a data.").should("exist");
     cy.contains(".error-message", "Selecione um turno.").should("exist");
@@ -71,7 +72,7 @@ describe("Validação de Entrada do Formulário", () => {
 
 describe("Interações do Usuário no Formulário", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:5173/"); 
+    cy.visit("http://localhost:5173/");
   });
 
   it("Deve atualizar corretamente o estado ao preencher campos", () => {
@@ -89,13 +90,12 @@ describe("Interações do Usuário no Formulário", () => {
     cy.get(".cidadeinput").should("have.value", "São Paulo");
     cy.get(".datainput input").should("have.value", "30-05-2024");
     cy.get(".climaselect").should("have.value", "LIMPO");
-    cy.get('.turnobutton.selected').should('exist');
+    cy.get(".turnobutton.selected").should("exist");
     cy.get(".updown-div").eq(0).find("input").should("have.value", "25");
     cy.get(".updown-div").eq(1).find("input").should("have.value", "15");
     cy.get(".updown-div").eq(2).find("input").should("have.value", "10");
     cy.get(".updown-div").eq(3).find("input").should("have.value", "50");
     cy.get(".updown-div").eq(4).find("input").should("have.value", "20");
-    
   });
 
   it("Deve enviar o formulário com sucesso após preencher campos corretamente", () => {
@@ -118,4 +118,3 @@ describe("Interações do Usuário no Formulário", () => {
     }).should("exist");
   });
 });
-
