@@ -1,3 +1,7 @@
 .previsoes-main {
   padding: 0 0 0 120px;
 }
+
+.previsoes-main h1 {
+  margin: 40px 0 16px 0;
+}
