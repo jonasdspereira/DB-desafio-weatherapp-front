@@ -5,12 +5,16 @@ import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
 import { describe, test, expect, vi } from "vitest";
+<<<<<<< HEAD
 <<<<<<< HEAD:weatherapp/src/components/Form/Form.test.tsx
 import Form from "./Form.js";
 =======
 import userEvent from "@testing-library/user-event";
 import Form from "./index.jsx";
 >>>>>>> parent of 0cfd57f (implementando testes unitarios):weatherapp/src/components/Form/Form.test.jsx
+=======
+import Form from "./Form.js";
+>>>>>>> 665f767d0e57bc32fa58a835103090228494fb39
 
 vi.mock("axios");
 
