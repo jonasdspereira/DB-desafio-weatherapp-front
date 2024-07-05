@@ -11,6 +11,17 @@
   margin: auto auto auto 100px;
 }
 
+.nav-links {
+  display: flex;
+  list-style-type: none;
+  gap: 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--primary-color-branco);
+}
+
 /* Media Queries para Responsividade */
 
 /* Tablets (largura máxima de 781px) */

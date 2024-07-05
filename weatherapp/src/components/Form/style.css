@@ -1,34 +1,33 @@
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+.col-1,
+.col-2 {
+  grid-column: span 1;
 }
 
 .col-3 {
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.col-2 {
-  margin-left: 100px;
+  grid-column: span 2;
+  display: flex;
+  gap: 100px;
+  align-items: baseline;
 }
 
 form {
   margin: 0 0 0 120px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
 }
 
 h1 {
   font-size: 23pt;
   font-weight: bold;
   width: 90vw;
-  margin: 40px 0 16px 0;
+  margin: 40px 0 16px 120px;
 }
 
 label,
 p,
 input {
-  display: block;
+  display: grid;
   font-family: "TT Supermolot", Arial, sans-serif;
 }
 
@@ -37,37 +36,13 @@ label {
   margin: 22px 0 16px 0;
 }
 
-.cidadeinput {
-  border: 2px solid var(--primary-color-azul-medio);
-  width: 465;
-  height: 55;
-}
-
-.cidadeinput:focus {
-  border-color: var(--primary-color-verde);
-  outline: none;
-}
-
-.datainput {
-  border: 2px solid var(--primary-color-azul-medio);
-  padding: 10px;
-  width: 370px;
-}
-
 button {
   margin-right: 5px;
 }
 
-.climaselect {
-  border: 2px solid var(--primary-color-azul-medio);
-  border-radius: 5px;
-}
-
 .buttonscontainer {
   display: flex;
-  justify-content: center;
-  width: 90vw;
-  margin: 80px 0;
+  justify-content: end;
 }
 
 .cancelarbutton {
@@ -92,64 +67,22 @@ button {
   cursor: pointer;
 }
 
-.datainput {
-  border: 2px solid var(--primary-color-azul-medio);
-  padding: 10px;
-  width: 150px;
-  border-radius: 5px;
-}
-
 .invalid {
-  border-color: var(--primary-color-vermelho);
-}
-.invalid .ant-select-selector,
-.invalid .ant-picker,
-.invalid .ant-input {
-  border: 2px solid var(--primary-color-vermelho) !important;
+  border: 2px solid var(--primary-color-vermelho);
+  border-radius: 8px;
 }
 
-.selected .ant-select-selector {
-  border-color: var(--primary-color-verde) !important;
-}
-
-.custom-select .ant-select-selector:focus,
-.custom-select .ant-select-selector:active {
-  border-color: var(--primary-color-azul-medio) !important;
-}
-
-.ant-select-item-option:hover {
-  background-color: var(--primary-color-azul) !important;
-  color: var(--primary-color-azul-medio) !important;
-}
-
-.ant-select-selector {
-  border: 2px solid var(--primary-color-azul-medio) !important;
-  color: var(--primary-color-azul-medio) !important;
-}
-
-.ant-select-item-option-selected {
-  background-color: var(--primary-color-branco) !important;
-  color: var(--primary-color-azul-medio) !important;
-}
-
-.ant-select-dropdown {
-  border: 2px solid var(--primary-color-azul-medio);
-  border-radius: 4px;
-}
-
-.ant-select-item-option {
-  font-family: "TT Supermolot", Arial, sans-serif;
-  font-size: 14px;
-}
-
-.ant-select-selector {
-  font-family: "TT Supermolot", Arial, sans-serif;
-  font-size: 14px;
-}
 .error-message {
   color: var(--primary-color-vermelho);
   font-size: 10pt;
   margin-top: 0.25rem;
+}
+
+.datainput,
+.cidadeinput,
+.climainput {
+  width: 350px;
+  height: 50px;
 }
 
 .climacontainer {
@@ -200,15 +133,13 @@ button {
   }
   form {
     margin: 0;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: column;
   }
+
   .datainput,
-  .cidadeinput {
-    width: 100vw;
-    max-width: 300px;
+  .cidadeinput,
+  .climainput {
+    width: 350px;
+    height: 50px;
   }
 
   .buttonscontainer {
@@ -235,50 +166,6 @@ button {
   .cidadecontainer label {
     margin-top: 10px;
   }
-
-  .invalid .ant-select-selector,
-  .invalid .ant-picker,
-  .invalid .ant-input {
-    border: 2px solid var(--primary-color-vermelho) !important;
-  }
-
-  .selected .ant-select-selector {
-    border-color: var(--primary-color-verde) !important;
-  }
-
-  .custom-select .ant-select-selector:focus,
-  .custom-select .ant-select-selector:active {
-    border-color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-item-option:hover {
-    background-color: var(--primary-color-azul) !important;
-    color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-selector {
-    border: 2px solid var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-item-option-selected {
-    background-color: var(--primary-color-branco) !important;
-    color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-dropdown {
-    border: 2px solid var(--primary-color-azul-medio);
-    border-radius: 4px;
-  }
-
-  .ant-select-item-option {
-    font-family: "TT Supermolot", Arial, sans-serif;
-    font-size: 14px;
-  }
-
-  .ant-select-selector {
-    font-family: "TT Supermolot", Arial, sans-serif;
-    font-size: 14px;
-  }
 }
 
 /* Smartphones (largura máxima de 480px) */
@@ -296,10 +183,6 @@ button {
 
   form {
     margin: 0;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: column;
   }
 
   h1 {
@@ -313,9 +196,10 @@ button {
   }
 
   .datainput,
-  .cidadeinput {
-    width: 100vw;
-    max-width: 250px;
+  .cidadeinput,
+  .climainput {
+    width: 350px;
+    height: 50px;
   }
 
   .buttonscontainer {
@@ -371,49 +255,5 @@ button {
     font-family: "TT Supermolot", Arial, sans-serif;
     font-weight: bold;
     cursor: pointer;
-  }
-
-  .invalid .ant-select-selector,
-  .invalid .ant-picker,
-  .invalid .ant-input {
-    border: 2px solid var(--primary-color-vermelho) !important;
-  }
-
-  .selected .ant-select-selector {
-    border-color: var(--primary-color-verde) !important;
-  }
-
-  .custom-select .ant-select-selector:focus,
-  .custom-select .ant-select-selector:active {
-    border-color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-item-option:hover {
-    background-color: var(--primary-color-azul) !important;
-    color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-selector {
-    border: 2px solid var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-item-option-selected {
-    background-color: var(--primary-color-branco) !important;
-    color: var(--primary-color-azul-medio) !important;
-  }
-
-  .ant-select-dropdown {
-    border: 2px solid var(--primary-color-azul-medio);
-    border-radius: 4px;
-  }
-
-  .ant-select-item-option {
-    font-family: "TT Supermolot", Arial, sans-serif;
-    font-size: 14px;
-  }
-
-  .ant-select-selector {
-    font-family: "TT Supermolot", Arial, sans-serif;
-    font-size: 14px;
   }
 }

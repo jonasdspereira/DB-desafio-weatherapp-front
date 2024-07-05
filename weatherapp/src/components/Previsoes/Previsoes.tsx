@@ -8,34 +8,48 @@ import "./style.css";
 
 const { Search } = Input;
 
-const Previsoes = () => {
-  const API_URL = process.env.REACT_APP_API_URL;
-  const [cidade, setCidade] = useState("");
-  const [dados, setDados] = useState([]);
-  const [error, setError] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
+interface Previsao {
+  id: number;
+  dataCadastro: string;
+  nomeCidade: string;
+  temperaturaMaxima: number;
+  temperaturaMinima: number;
+  previsaoTempo: string;
+  previsaoTurno: string | string[];
+  precipitacao: number;
+  umidade: number;
+  velocidadeDoVento: number;
+}
+
+const Previsoes: React.FC = () => {
+  const API_URL = process.env.REACT_APP_API_URL || "";
+  const [cidade, setCidade] = useState<string>("");
+  const [dados, setDados] = useState<Previsao[]>([]);
+  const [error, setError] = useState<string>("");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (cidade) {
-      axios
-        .get(`${API_URL}/previsoes/${encodeURIComponent(cidade)}`)
-        .then((response) => {
-          setDados(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-          setError("Erro ao buscar previsões para a cidade.");
-        });
-    } else {
-      axios.get(`${API_URL}/previsoes/todas`).then((response) => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (cidade) {
+          response = await axios.get(`${API_URL}/previsoes/${encodeURIComponent(cidade)}`);
+        } else {
+          response = await axios.get(`${API_URL}/previsoes/todas`);
+        }
         setDados(response.data);
-      });
-    }
+      } catch (err) {
+        console.error(err);
+        setError("Erro ao buscar previsões para a cidade.");
+      }
+    };
+
+    fetchData();
   }, [API_URL, cidade]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number | null) => {
     try {
       if (!id) {
         console.error("ID inválido:", id);
@@ -49,40 +63,26 @@ const Previsoes = () => {
         message: "Dados excluídos com sucesso!",
       });
       setModalVisible(false);
-      setDados((prevDados) => {
-        const updatedDados = prevDados.filter((item) => item.id !== id);
-        console.log("Dados após exclusão:", updatedDados);
-
-        return updatedDados;
-      });
+      setDados(prevDados => prevDados.filter(item => item.id !== id));
     } catch (error) {
       console.error("Erro ao excluir registro:", error);
     }
   };
 
-  const handleEdit = (record) => {
+  const handleEdit = (record: Previsao) => {
     navigateTo(`/editar/${record.id}`);
   };
 
-  const expandedRowRender = (record) => {
+  const expandedRowRender = (record: Previsao) => {
     const columns = [
-      {
-        title: "Precipitação",
-        dataIndex: "precipitacao",
-        key: "precipitacao",
-        width: 150,
-      },
+      { title: "Precipitação", dataIndex: "precipitacao", key: "precipitacao", width: 150 },
       { title: "Umidade", dataIndex: "umidade", key: "umidade", width: 50 },
-      {
-        title: "Vento",
-        dataIndex: "velocidadeDoVento",
-        key: "velocidadeDoVento",
-      },
+      { title: "Vento", dataIndex: "velocidadeDoVento", key: "velocidadeDoVento" },
     ];
 
     const data = [
       {
-        key: record.key,
+        key: record.id,
         precipitacao: `${record.precipitacao} mm`,
         umidade: `${record.umidade}%`,
         velocidadeDoVento: `${record.velocidadeDoVento} km/h`,
@@ -93,35 +93,23 @@ const Previsoes = () => {
   };
 
   const columns = [
-    {
-      title: "Data",
-      dataIndex: "dataCadastro",
-      key: "dataCadastro",
-      width: 150,
-    },
+    { title: "Data", dataIndex: "dataCadastro", key: "dataCadastro", width: 150 },
     { title: "Cidade", dataIndex: "nomeCidade", key: "nomeCidade", width: 150 },
     {
       title: "Temperatura",
       key: "temperatura",
-      render: (_, record) =>
+      render: (_: any, record: Previsao) =>
         `Máx ${record.temperaturaMaxima}°C / Mín ${record.temperaturaMinima}°C`,
       width: 150,
     },
-    {
-      title: "Clima",
-      dataIndex: "previsaoTempo",
-      key: "previsaoTempo",
-      width: 150,
-    },
+    { title: "Clima", dataIndex: "previsaoTempo", key: "previsaoTempo", width: 150 },
     {
       title: "Turno",
       dataIndex: "previsaoTurno",
       key: "previsaoTurno",
       width: 150,
-      render: (_, record) => {
-        const turnos = Array.isArray(record.previsaoTurno)
-          ? record.previsaoTurno
-          : [record.previsaoTurno];
+      render: (_: any, record: Previsao) => {
+        const turnos = Array.isArray(record.previsaoTurno) ? record.previsaoTurno : [record.previsaoTurno];
         return (
           <>
             {turnos.map((turno) => {
@@ -146,13 +134,13 @@ const Previsoes = () => {
     {
       title: "Ações",
       key: "actions",
-      render: (_, record) => (
+      render: (_: any, record: Previsao) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleEdit(record)}>
             Editar
           </Button>
           <Button
-            type="danger"
+            danger
             onClick={() => {
               setModalVisible(true);
               setDeletingId(record.id);
@@ -175,7 +163,6 @@ const Previsoes = () => {
       <h1>Lista de Dados Meteorológicos</h1>
       <label>Buscar a cidade</label>
       <p>Cidade*</p>
-
       <Search
         type="text"
         value={cidade}
@@ -197,8 +184,7 @@ const Previsoes = () => {
           pageSize: 10,
           showSizeChanger: false,
           showQuickJumper: true,
-          showTotal: (total, range) =>
-            `${range[0]}-${range[1]} de ${total} itens`,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} itens`,
         }}
         locale={{
           emptyText: (
@@ -217,7 +203,7 @@ const Previsoes = () => {
       />
       <Modal
         title="Confirmação de Exclusão"
-        open={modalVisible}
+        visible={modalVisible}
         onCancel={handleModalCancel}
         footer={[
           <Button key="cancel" onClick={handleModalCancel}>
