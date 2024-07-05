@@ -1,8 +1,10 @@
 .updown {
   display: flex;
   align-items: center;
+  justify-content: center;
   border: 2px solid var(--primary-color-branco);
   border-radius: 5px;
+  width: 200px;
 }
 
 .updown-main {
@@ -60,7 +62,7 @@ img {
   .updown {
     flex-direction: row;
     align-items: center;
-    
+
     width: 10rem;
   }
 

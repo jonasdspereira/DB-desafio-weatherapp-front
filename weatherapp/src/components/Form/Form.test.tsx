@@ -5,7 +5,7 @@ import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
 import { describe, test, expect, vi } from "vitest";
-import Form from "./index.jsx";
+import Form from "./Form.js";
 
 vi.mock("axios");
 
@@ -27,7 +27,8 @@ describe("Testes do componente Form", () => {
   };
 
   beforeEach(() => {
-    axios.get.mockResolvedValueOnce({ data: mockData });
+    axios.get = vi.fn().mockResolvedValue({ data: mockData });
+    axios.post = vi.fn().mockResolvedValue({ data: { message: "Dados enviados com sucesso!" } });
   });
 
   test("deve enviar a previsão com sucesso", async () => {

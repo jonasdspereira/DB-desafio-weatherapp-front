@@ -1,9 +1,13 @@
 import React from "react";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const showToast = ({ type, message }) => {
+interface ToastProps {
+  type: "success" | "warn" | "error" | "info";
+  message: string;
+}
+
+export const showToast = ({ type, message }: ToastProps) => {
   switch (type) {
     case "success":
       toast.success(message);
@@ -18,6 +22,9 @@ export const showToast = ({ type, message }) => {
       toast.info(message);
   }
 };
-export default function ToastAnimated() {
-  return <Toast />;
-}
+
+const ToastAnimated: React.FC = () => {
+  return <ToastContainer />;
+};
+
+export default ToastAnimated;

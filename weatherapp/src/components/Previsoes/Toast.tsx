@@ -1,9 +1,13 @@
-import React from "react";
-
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const showToast = ({ type, message }) => {
+export const showToast = ({
+  type,
+  message,
+}: {
+  type: "success" | "warn" | "error" | "info",
+  message: string,
+}) => {
   switch (type) {
     case "success":
       toast.success(message);
@@ -18,6 +22,3 @@ export const showToast = ({ type, message }) => {
       toast.info(message);
   }
 };
-export default function ToastAnimated() {
-  return <Toast />;
-}

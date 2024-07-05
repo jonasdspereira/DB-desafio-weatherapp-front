@@ -3,7 +3,21 @@ import "./style.css";
 import up from "./up.png";
 import down from "./down.png";
 
-const UpDownButton = ({ unit, value, setValue, isValid, testId }) => {
+interface UpDownButtonProps {
+  unit: string;
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+  isValid: boolean;
+  testId: string;
+}
+
+const UpDownButton: React.FC<UpDownButtonProps> = ({
+  unit,
+  value,
+  setValue,
+  isValid,
+  testId,
+}) => {
   const handleIncrement = () => {
     const newValue = value + 1;
     setValue(newValue);
@@ -14,7 +28,7 @@ const UpDownButton = ({ unit, value, setValue, isValid, testId }) => {
     setValue(newValue);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     if (!isNaN(newValue)) {
       setValue(newValue);

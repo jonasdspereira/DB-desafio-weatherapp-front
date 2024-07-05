@@ -1,12 +1,14 @@
+import React from "react";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Navbar from "./components/Navbar";
-import Breadcrumb from "./components/Breadcrumb";
+import Navbar from "./components/Navbar/Navbar";
+import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 import { ToastContainer } from "react-toastify";
-import Previsoes from "./components/Previsoes";
-import Form from "./components/Form";
-import { MemoryRouter, Routes, Route } from "react-router-dom"; // Importando o Router correto
+import Previsoes from "./components/Previsoes/Previsoes";
+import Form from "./components/Form/Form";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
+
 
 beforeAll(() => {
   window.matchMedia =
@@ -19,6 +21,7 @@ beforeAll(() => {
       };
     };
 });
+
 
 describe("App", () => {
   test("deve renderizar a tela inicial", () => {
